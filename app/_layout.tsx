@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import TrackPlayer from 'react-native-track-player';
+import { PlaybackService } from '@/services/PlaybackService';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +22,9 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      console.log('Setting up player service!');
+      TrackPlayer.registerPlaybackService(() => PlaybackService);
+
     }
   }, [loaded]);
 
@@ -27,6 +32,7 @@ export default function RootLayout() {
     return null;
   }
 
+  
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
