@@ -5,14 +5,15 @@ let lastJumpTime = 0;
 export async function PlaybackService() {
   // This event is triggered regularly during playback (every second by default)
   TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, async ({ position }) => {
+    console.log('PlaybackProgressUpdated, checking:', position, lastJumpTime);
     try {
-      // Check if 2 minutes have passed since the last jump
-      if (position - lastJumpTime >= 120) {
+      // Check if 20 seconds have passed since the last jump
+      if (position - lastJumpTime >= 20) {
         const state = await TrackPlayer.getState();
         if (state === State.Playing) {
           console.log(`Current position: ${position}, Last jump: ${lastJumpTime}`);
-          console.log('Jumping forward 30 seconds');
-          await TrackPlayer.seekBy(30);
+          console.log('Jumping forward 10 seconds');
+          await TrackPlayer.seekBy(10);
           lastJumpTime = position;
         }
       }

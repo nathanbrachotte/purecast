@@ -57,7 +57,8 @@ const setupPlayer = async () => {
     // Add a test track
     await TrackPlayer.add({
       id: '1',
-      url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3',
+      url: require('./example2.1.mp3'),
+      // url: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3',
       title: 'Test Track',
       artist: 'Test Artist',
     });
@@ -135,6 +136,20 @@ const AudioPlayer: React.FC = () => {
     }
   };
 
+  const reset = async () => {
+    try {
+      await TrackPlayer.reset();
+      await TrackPlayer.add({
+        id: '1',
+        url: require('./example2.1.mp3'),
+        title: 'Test Track',
+        artist: 'Test Artist',
+      });
+    } catch (error) {
+      console.error('Error resetting player:', error);
+    }
+  };
+
   if (!isPlayerReady) {
     return (
       <View style={styles.container}>
@@ -171,6 +186,13 @@ const AudioPlayer: React.FC = () => {
           onPress={skipForward}
         >
           <Text style={styles.controlButtonText}>+30s</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.controlButton}
+          onPress={reset}
+        >
+          <Text style={styles.controlButtonText}>Reset</Text>
         </TouchableOpacity>
       </View>
 
